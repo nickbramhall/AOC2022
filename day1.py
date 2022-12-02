@@ -1,4 +1,4 @@
-input_file = 'day1-input.txt'
+input_file = 'input/day1-input.txt'
 
 # Read in all the data and strip out any whitespace at the end of lines
 all_lines = [line.rstrip('\n') for line in open(input_file)]

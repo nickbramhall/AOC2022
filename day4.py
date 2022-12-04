@@ -8,16 +8,18 @@ all_lines = [line.rstrip('\n') for line in open(input_file)]
 
 # print(all_lines)
 
-count=0
-
-for line in all_lines:
+def get_elf_ranges(line):
     elf1,elf2=line.split(',')
     elf1_start,elf1_stop=elf1.split('-')
     elf2_start,elf2_stop=elf2.split('-')
-    elf1_start=int(elf1_start)
-    elf1_stop=int(elf1_stop)
-    elf2_start=int(elf2_start)
-    elf2_stop=int(elf2_stop)
+    return int(elf1_start), int(elf1_stop), int(elf2_start), int(elf2_stop)
+
+# Part 1
+
+count=0
+
+for line in all_lines:
+    elf1_start, elf1_stop, elf2_start, elf2_stop = get_elf_ranges(line)
     if elf1_start == elf1_stop:
         if elf1_start == elf2_start or elf1_start == elf2_stop:
             # print(f'Match found for {elf1},{elf2}')
@@ -50,18 +52,10 @@ print(f'Part 1: {count}')
 count=0
 
 for line in all_lines:
-    elf1,elf2=line.split(',')
-    elf1_start,elf1_stop=elf1.split('-')
-    elf2_start,elf2_stop=elf2.split('-')
-    elf1_start=int(elf1_start)
-    elf1_stop=int(elf1_stop)
-    elf2_start=int(elf2_start)
-    elf2_stop=int(elf2_stop)
+    elf1_start, elf1_stop, elf2_start, elf2_stop = get_elf_ranges(line)
     if elf2_start <= elf1_start <= elf2_stop:
         count = count + 1
-        continue
-    if elf1_start <= elf2_start <= elf1_stop:
+    elif elf1_start <= elf2_start <= elf1_stop:
         count = count + 1
-        continue
 
 print(f'Part 2: {count}')

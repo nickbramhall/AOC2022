@@ -22,10 +22,8 @@ for line in all_lines:
     elf1_start, elf1_stop, elf2_start, elf2_stop = get_elf_ranges(line)
     if elf1_start <= elf2_start and elf1_stop >= elf2_stop:
         count = count + 1
-        continue
-    if elf2_start <= elf1_start and elf2_stop >= elf1_stop:
+    elif elf2_start <= elf1_start and elf2_stop >= elf1_stop:
         count = count + 1
-        continue
     # print('\n')
     # print('.'*(elf1_start-1)+'X'*(elf1_stop-elf1_start+1)+'.'*(100-elf1_stop))
     # print('.'*(elf2_start-1)+'X'*(elf2_stop-elf2_start+1)+'.'*(100-elf2_stop))

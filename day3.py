@@ -21,8 +21,8 @@ total_score = 0
 for line in all_lines:
     length_of_line = len(line)
     # print(length_of_line)
-    items_in_compartment_A = line[0:length_of_line/2]
-    items_in_compartment_B = line[length_of_line/2:]
+    items_in_compartment_A = line[0:(length_of_line//2)]
+    items_in_compartment_B = line[(length_of_line//2):]
     # print(items_in_compartment_B)
     item_found = False
     for item in items_in_compartment_A:
@@ -36,7 +36,7 @@ for line in all_lines:
                 total_score = total_score + score
                 item_found = True
 
-print('Part 1: {}'.format(total_score))
+print(f'Part 1: {total_score}')
 
 ## Part 2 - Find the comment item between groups of 3 rucksacks
 
@@ -72,4 +72,4 @@ for group_of_eleves in chunked_list:
                 total_score = total_score + score
                 item_found = True
 
-print('Part 2: {}'.format(total_score))
+print(f'Part 2: {total_score}')

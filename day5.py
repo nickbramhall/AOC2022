@@ -1,5 +1,5 @@
 day=5
-input_type='input'
+input_type='test'
 
 input_file = f'input/day{day}-{input_type}.txt'
 
@@ -7,7 +7,7 @@ input_file = f'input/day{day}-{input_type}.txt'
 all_lines = [line.rstrip('\n') for line in open(input_file)]
 
 def clean_input(input_list):
-    # Find where the commands startpython
+    # Find where the commands start
     start_command=all_lines.index("")
     # Get list of commands
     commands_list=all_lines[start_command+1:]
@@ -112,3 +112,24 @@ message = message.replace("[", "")
 message = message.replace("]", "") 
 
 print(f'Part 2: "{message}"')
+
+# Alt approach - https://github.com/PetchyAL/advent_of_code_2022/blob/main/solutions/day5/day5.py
+
+# from string import ascii_uppercase
+# import copy
+
+# def prep_cargo(cargo):
+#     prepped_cargo = [ [] for _ in range(3) ]
+#     for row in cargo:
+#         for c in range(len(row)):
+#             #print(row[c])
+#             if row[c] in ascii_uppercase:
+#                 print(c//4)
+#                 prepped_cargo[c//4].append(row[c])
+#     return prepped_cargo
+
+# with open("input/day5-test.txt") as text_file:
+#     cargo, instructions = text_file.read().strip().split('\n\n')
+# cargo = prep_cargo(cargo.split('\n'))
+
+# print(cargo)

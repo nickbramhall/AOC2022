@@ -10,11 +10,9 @@ all_lines = [line.rstrip('\n') for line in open(input_file)]
 
 # Part 1 - determine the total size of each directory
 
-current_level=0
-storage=[]
-breadcrumbs=[]
-directories={}
-size={}
+breadcrumbs=[] # Use this to make unique directory names
+directories={} # Store dict of every directory
+size={} # Store file and directory contents info
 
 for input in all_lines:
     input_split = input.split(" ")
@@ -23,12 +21,10 @@ for input in all_lines:
         if input_split[1] == 'cd':
             if input_split[2] == '..':
                 # Go up
-                current_level=current_level-1
                 breadcrumbs.pop()
                 # print(breadcrumbs)
             else:
                 # Go down to next directory
-                current_level=current_level+1
                 breadcrumbs.append(input_split[2])
                 # print(breadcrumbs)
                 dir_name=''
@@ -40,7 +36,6 @@ for input in all_lines:
         if input_split[0] == "dir":
             directory_name=input_split[1]
             # print(f'Directory: {directory_name}')
-            storage.append([])
             dir_name=''
             for entry in breadcrumbs:
                 dir_name=dir_name+entry
@@ -49,7 +44,6 @@ for input in all_lines:
             #It is a file
             file_size=int(input_split[0])
             file_name=input_split[1]
-            storage.append(file_size)
             dir_name=''
             for entry in breadcrumbs:
                 dir_name=dir_name+entry

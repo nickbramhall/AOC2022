@@ -14,6 +14,7 @@ def tail_movement(head_position,tail_position):
     # print(f'xdiff: {x_axis_diff}')
     # print(f'ydiff: {y_axis_diff}')
     # print(f'Head position: {head_position} -- Start tail position: {tail_position} -- Xdiff: {x_axis_diff} -- Ydiff: {y_axis_diff}')
+    # The first four ifs deal with the case where there are big diagonal gaps
     if x_axis_diff > 1 and y_axis_diff > 1:
         #print('Big jump!')
         tail_position[0]=head_position[0]-1
@@ -30,6 +31,7 @@ def tail_movement(head_position,tail_position):
         #print('Big jump!')
         tail_position[0]=head_position[0]-1
         tail_position[1]=head_position[1]+1
+    # These are the standard catch up moves
     else:
         if x_axis_diff > 1:
             tail_position[0]=head_position[0]-1

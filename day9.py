@@ -86,11 +86,16 @@ print(f'Part 1: {len(tail_visited)}')
 
 ## Part 2
 
+number_of_knots=9
+knots=[]
+knot_positions=[]
+tail_knot=number_of_knots-1
+
+for x in range(0,number_of_knots,1):
+    knots.append(x)
+    knot_positions.append([0,0])
+
 head_position=[0,0]
-knot_positions=[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]
-
-knots=[0,1,2,3,4,5,6,7,8]
-
 tail_visited=set()
 
 for move in all_lines:
@@ -104,7 +109,7 @@ for move in all_lines:
                     knot_positions[k]=tail_movement(head_position,knot_positions[k])
                 else:
                     knot_positions[k]=tail_movement(knot_positions[k-1],knot_positions[k])
-            update_tail_visited(knot_positions[8])
+            update_tail_visited(knot_positions[tail_knot])
     if direction == "L":
         for _ in range(head_position[0],head_position[0]-distance,-1):
             head_position[0]=head_position[0]-1
@@ -113,7 +118,7 @@ for move in all_lines:
                     knot_positions[k]=tail_movement(head_position,knot_positions[k])
                 else:
                     knot_positions[k]=tail_movement(knot_positions[k-1],knot_positions[k])
-            update_tail_visited(knot_positions[8])
+            update_tail_visited(knot_positions[tail_knot])
     if direction == "U":
         for _ in range(head_position[1],head_position[1]+distance,1):
             head_position[1]=head_position[1]+1
@@ -122,7 +127,7 @@ for move in all_lines:
                     knot_positions[k]=tail_movement(head_position,knot_positions[k])
                 else:
                     knot_positions[k]=tail_movement(knot_positions[k-1],knot_positions[k])
-            update_tail_visited(knot_positions[8])
+            update_tail_visited(knot_positions[tail_knot])
     if direction == "D":
         for _ in range(head_position[1],head_position[1]-distance,-1):
             head_position[1]=head_position[1]-1
@@ -131,6 +136,6 @@ for move in all_lines:
                     knot_positions[k]=tail_movement(head_position,knot_positions[k])
                 else:
                     knot_positions[k]=tail_movement(knot_positions[k-1],knot_positions[k])
-            update_tail_visited(knot_positions[8])
+            update_tail_visited(knot_positions[tail_knot])
 
 print(f'Part 2: {len(tail_visited)}')

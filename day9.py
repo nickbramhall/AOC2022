@@ -46,8 +46,7 @@ def tail_movement(head_position,tail_position):
     return tail_position
 
 def update_tail_visited(tail_position):
-    if (tail_position[0],tail_position[1]) not in tail_visited:
-        tail_visited.append((tail_position[0],tail_position[1]))
+    tail_visited.add((tail_position[0],tail_position[1]))
     return True
 
 # Part 1
@@ -55,7 +54,7 @@ def update_tail_visited(tail_position):
 head_position=[0,0]
 tail_position=[0,0]
 
-tail_visited = []
+tail_visited = set()
 
 for move in all_lines:
     direction,distance=move.split(" ")
@@ -90,7 +89,7 @@ knot_positions=[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]
 
 knots=[0,1,2,3,4,5,6,7,8]
 
-tail_visited=[]
+tail_visited=set()
 
 for move in all_lines:
     direction,distance=move.split(" ")

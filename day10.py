@@ -8,21 +8,14 @@ input_file = f'input/day{day}-{input_type}.txt'
 # Read in all the data and strip out any whitespace at the end of lines
 all_lines = [line.rstrip('\n') for line in open(input_file)]
 
-# Cycle   1 -> ######################################## <- Cycle  40
-# Cycle  41 -> ######################################## <- Cycle  80
-# Cycle  81 -> ######################################## <- Cycle 120
-# Cycle 121 -> ######################################## <- Cycle 160
-# Cycle 161 -> ######################################## <- Cycle 200
-# Cycle 201 -> ######################################## <- Cycle 240
-
-crt = [['░']*40 for i in range(6)]
+screen = [['░']*40 for i in range(6)]
 
 def pixel(cycle,register):
-    col = (cycle % 40)-1
+    col = (cycle-1) % 40
     row = cycle // 40
     sprite_pixels = (register-1,register,register+1)
     if col in sprite_pixels:
-        crt[row][col] = '█'
+        screen[row][col] = '█'
 
 register=1
 signal_strength=0
@@ -68,5 +61,5 @@ print(f'Part 1: {signal_strength}')
 
 # Part 2
 
-for row in crt: #Part 2 result
+for row in screen:
   print(''.join(row))

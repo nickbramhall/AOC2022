@@ -15,31 +15,14 @@ all_lines = [line.rstrip('\n') for line in open(input_file)]
 # Cycle 161 -> ######################################## <- Cycle 200
 # Cycle 201 -> ######################################## <- Cycle 240
 
+crt = [['░']*40 for i in range(6)]
+
 def pixel(cycle,register):
-    sprite_pixels=(register-1,register,register+1)
-    lit=False
-    if cycle < 41:
-        if cycle in sprite_pixels:
-            lit = True
-    elif cycle < 81:
-        if cycle-40 in sprite_pixels:
-            lit = True
-    elif cycle < 121:
-        if cycle-80 in sprite_pixels:
-            lit = True
-    elif cycle < 161:
-        if cycle-120 in sprite_pixels:
-            lit = True
-    elif cycle < 201:
-        if cycle-160 in sprite_pixels:
-            lit = True
-    else:
-        if cycle-200 in sprite_pixels:
-            lit = True
-    if lit is True:
-        return '█'
-    else:
-        return '░'
+    col = (cycle % 40)-1
+    row = cycle // 40
+    sprite_pixels = (register-1,register,register+1)
+    if col in sprite_pixels:
+        crt[row][col] = '█'
 
 register=1
 signal_strength=0
@@ -51,7 +34,16 @@ screen_string=''
 end_of_file = False
 
 while end_of_file is False:
-    # print(f'Cycle: {cycle} Command: {all_lines[0]}')
+
+    # Check for signal strength
+    if cycle in target_cycles:
+        print(f'Cycle: {cycle} -- Register: {register}')
+        signal_strength=signal_strength+(cycle*register)
+    
+    # Get the current pixel value and add to the screen string for later use
+    screen_string=pixel(cycle,register)
+
+    # Now get the next command and process it
     if all_lines[0] == "noop":
         all_lines.pop(0)
     else:
@@ -63,15 +55,8 @@ while end_of_file is False:
             register=register+int(value)
             all_lines.pop(0)
     
-    # Get the current pixel value and add to the screen string for later use
-    screen_string=screen_string+pixel(cycle,register)
-
     # Increase the cycle count
     cycle+=1
-    
-    if cycle in target_cycles:
-        print(f'Cycle: {cycle} -- Register: {register}')
-        signal_strength=signal_strength+(cycle*register)
     
     # If we have reached the end of the code then set End of File to True to exit the while loop
     if not all_lines:
@@ -83,10 +68,5 @@ print(f'Part 1: {signal_strength}')
 
 # Part 2
 
-c=0
-for pixel in screen_string:
-    if c in (39,79,119,159,199,239):
-        print(pixel)
-    else:
-        print(pixel, end="")
-    c=c+1
+for row in crt: #Part 2 result
+  print(''.join(row))

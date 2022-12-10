@@ -83,10 +83,6 @@ print(f'Part 1: {signal_strength}')
 
 # Part 2
 
-print(screen_string)
-
-print(len(screen_string))
-
 c=0
 for pixel in screen_string:
     if c in (39,79,119,159,199,239):

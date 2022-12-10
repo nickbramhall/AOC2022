@@ -1,3 +1,5 @@
+# Day 10: Cathode-Ray Tube
+
 day=10
 input_type='input'
 
@@ -41,11 +43,12 @@ def pixel(cycle,register):
 
 register=1
 signal_strength=0
-
-end_of_file = False
 cycle=1
 
+target_cycles=(20,60,100,140,180,220)
 screen_string=''
+
+end_of_file = False
 
 while end_of_file is False:
     # print(f'Cycle: {cycle} Command: {all_lines[0]}')
@@ -64,12 +67,11 @@ while end_of_file is False:
     screen_string=screen_string+pixel(cycle,register)
 
     # Increase the cycle count
-    cycle=cycle+1
+    cycle+=1
     
-    if cycle in (20,60,100,140,180,220):
+    if cycle in target_cycles:
         print(f'Cycle: {cycle} -- Register: {register}')
         signal_strength=signal_strength+(cycle*register)
-    # print(f'Register: {register}')
     
     # If we have reached the end of the code then set End of File to True to exit the while loop
     if not all_lines:
@@ -81,7 +83,7 @@ print(f'Part 1: {signal_strength}')
 
 # Part 2
 
-# print(screen_string)
+print(screen_string)
 
 print(len(screen_string))
 

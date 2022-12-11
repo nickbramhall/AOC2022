@@ -24,134 +24,94 @@ for line in all_lines:
         continue
     else:
         variable,data=line.split(': ')
+        clean_variable=variable.strip()
         # print(f'Variable is "{variable}"')
-        if variable.strip() == "Starting items":
+        if clean_variable == "Starting items":
             # print(f'Adding items: {data}')
             list_of_items=data.split(', ')
             list_of_ints=[]
             for item in list_of_items:
                 list_of_ints.append(int(item))
             monkeys[counter]['items']=list_of_ints
-        if variable.strip() == "Operation":
+        if clean_variable == "Operation":
             new,equals,old,op,number=data.split(" ")
             monkeys[counter]['operation']=op
             if number == 'old':
                 monkeys[counter]['operation_number']=number
             else:
                 monkeys[counter]['operation_number']=int(number)
-        if variable.strip() == "Test":
+        if clean_variable == "Test":
             divisible,by,test_no=data.split(" ")
             monkeys[counter]['test']=int(test_no)
-        if variable.strip() == "If true":
+        if clean_variable == "If true":
             monkeys[counter]['true']=int(data[-1])
-        if variable.strip() == "If false":
+        if clean_variable == "If false":
             monkeys[counter]['false']=int(data[-1])
+
+part1_monkeys=deepcopy(monkeys)
+part2_monkeys=deepcopy(monkeys)
+
+def MonkeyBusiness(monkeys,total_rounds):
+
+    # Determine the appropriate common modulo operation number by multiplying all of the test values together 
+
+    reducing_factor = 1
+
+    for monkey in part2_monkeys:
+        reducing_factor = reducing_factor * monkey['test']
+    
+    rounds=0
+    while (rounds<total_rounds):
+        for monkey in monkeys:
+            items_counter=0
+            if monkey['items']:
+                for item in monkey['items']:
+                    monkey['inspections']=monkey['inspections']+1
+                    # Monkey inspects item
+                    op_number = monkey['operation_number']
+                    if op_number == 'old':
+                        op_number = item
+                    if monkey['operation'] == '*':
+                        item=item * op_number
+                    if monkey['operation'] == '+':
+                        item=item + op_number
+                    # Monkey gets bored
+                    if total_rounds <= 20:
+                        item = item // 3
+                    else:
+                        item = item % reducing_factor
+                    # Throw test
+                    throw_test = item % monkey['test']
+                    if throw_test == 0:
+                        monkeys[monkey['true']]['items'].append(item)
+                    else:
+                        monkeys[monkey['false']]['items'].append(item)
+                    items_counter+=1
+                for c in range (0,items_counter,1):
+                    monkey['items'].pop(0)
+        # Start of round
+        
+        rounds+=1
+
+    return(monkeys)
+
+def Result(list_of_monkeys):
+    list_of_inspections=[]
+    for monkey in list_of_monkeys:
+        list_of_inspections.append(monkey['inspections'])
+    list_of_inspections.sort(reverse=True)
+    return list_of_inspections[0]*list_of_inspections[1]
 
 # Part 1
 
-part1_monkeys=deepcopy(monkeys)
-
-rounds=1
-while (rounds<21):
-    # print(f'Start of round {rounds}')
-    for monkey in part1_monkeys:
-        items_counter=0
-        if monkey['items']:
-            for item in monkey['items']:
-                monkey['inspections']=monkey['inspections']+1
-                # Monkey inspects item
-                # print(f'Item worry level: {item}')
-                op_number = monkey['operation_number']
-                if op_number == 'old':
-                    op_number = item
-                if monkey['operation'] == '*':
-                    item=item * op_number
-                if monkey['operation'] == '+':
-                    item=item + op_number
-                # print(f'Item worry level: {item}')
-                # Monkey gets bored
-                item = item // 3
-                # print(f'Item worry level: {item}')
-                # Throw test
-                throw_test = item % monkey['test']
-                if throw_test == 0:
-                    part1_monkeys[monkey['true']]['items'].append(item)
-                else:
-                    part1_monkeys[monkey['false']]['items'].append(item)
-                # print(monkey['items'])
-                # print(monkeys[monkey['true']]['items'])
-                # print(monkeys[monkey['false']]['items'])
-                items_counter+=1
-            for c in range (0,items_counter,1):
-                monkey['items'].pop(0)
-    # Start of round
-    
-    rounds+=1
-
-list_of_inspections=[]
-for monkey in part1_monkeys:
-    # print(f'Monkey inspections: {monkey["inspections"]}')
-    list_of_inspections.append(monkey['inspections'])
-
-list_of_inspections.sort(reverse=True)
-part1=list_of_inspections[0]*list_of_inspections[1]
+part1_monkeys = MonkeyBusiness(part1_monkeys, 20)
+part1 = Result(part1_monkeys)
 
 print(f'Part 1: {part1}')
 
 # Part 2
 
-part2_monkeys=deepcopy(monkeys)
-
-# Determine the appropriate common modulo operation number by multiplying all of the test values together 
-
-reducing_factor = 1
-
-for monkey in part2_monkeys:
-    reducing_factor = reducing_factor * monkey['test']
-
-rounds=1
-while (rounds<10001):
-    # print(f'Start of round {rounds}')
-    for monkey in part2_monkeys:
-        items_counter=0
-        if monkey['items']:
-            for item in monkey['items']:
-                monkey['inspections']=monkey['inspections']+1
-                # Monkey inspects item
-                # print(f'Item worry level: {item}')
-                op_number = monkey['operation_number']
-                if op_number == 'old':
-                    op_number = item
-                if monkey['operation'] == '*':
-                    item=item * op_number
-                if monkey['operation'] == '+':
-                    item=item + op_number
-                # print(f'Item worry level: {item}')
-                # Monkey gets bored
-                item = item % reducing_factor
-                # print(f'Item worry level: {item}')
-                # Throw test
-                throw_test = item % monkey['test']
-                if throw_test == 0:
-                    part2_monkeys[monkey['true']]['items'].append(item)
-                else:
-                    part2_monkeys[monkey['false']]['items'].append(item)
-                # print(monkey['items'])
-                # print(monkeys[monkey['true']]['items'])
-                # print(monkeys[monkey['false']]['items'])
-                items_counter+=1
-            for c in range (0,items_counter,1):
-                monkey['items'].pop(0)
-    # Start of round
-    
-    rounds+=1
-
-list_of_inspections=[]
-for monkey in part2_monkeys:
-    # print(f'Monkey inspections: {monkey["inspections"]}')
-    list_of_inspections.append(monkey['inspections'])
-
-list_of_inspections.sort(reverse=True)
-part2=list_of_inspections[0]*list_of_inspections[1]
+part2_monkeys = MonkeyBusiness(part2_monkeys, 10000)
+part2 = Result(part2_monkeys)
 
 print(f'Part 2: {part2}')
